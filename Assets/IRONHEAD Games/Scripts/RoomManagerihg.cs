@@ -85,25 +85,26 @@ public class RoomManagerihg : MonoBehaviourPunCallbacks
     public override void OnJoinedRoom()
     {
         Debug.Log("The local player: "+ PhotonNetwork.NickName+ " joined to "+ PhotonNetwork.CurrentRoom.Name+ " Player count "+ PhotonNetwork.CurrentRoom.PlayerCount);
-        if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(MultiplayerVRConstants.MAP_TYPE_KEY))
-        {
-            object mapType;
-            if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(MultiplayerVRConstants.MAP_TYPE_KEY,out mapType))
-            {
-                Debug.Log("Joined room with the map: "+(string)mapType);
-                if ((string)mapType == MultiplayerVRConstants.MAP_TYPE_VALUE_SCHOOL)
-                {
-                    //Load the School scene
-                    PhotonNetwork.LoadLevel("World_School");
+        PhotonNetwork.LoadLevel("World_Outdoor");
+        // if (PhotonNetwork.CurrentRoom.CustomProperties.ContainsKey(MultiplayerVRConstants.MAP_TYPE_KEY))
+        // {
+        //     object mapType;
+        //     if (PhotonNetwork.CurrentRoom.CustomProperties.TryGetValue(MultiplayerVRConstants.MAP_TYPE_KEY,out mapType))
+        //     {
+        //         Debug.Log("Joined room with the map: "+(string)mapType);
+        //         if ((string)mapType == MultiplayerVRConstants.MAP_TYPE_VALUE_SCHOOL)
+        //         {
+        //             //Load the School scene
+        //             PhotonNetwork.LoadLevel("World_School");
 
-                }else if ((string)mapType == MultiplayerVRConstants.MAP_TYPE_VALUE_OUTDOOR)
-                {
-                    //Load the Outdoor Scene
-                    PhotonNetwork.LoadLevel("World_Outdoor");
+        //         }else if ((string)mapType == MultiplayerVRConstants.MAP_TYPE_VALUE_OUTDOOR)
+        //         {
+        //             //Load the Outdoor Scene
+        //             PhotonNetwork.LoadLevel("World_Outdoor");
 
-                }
-            }
-        }
+        //         }
+        //     }
+        // }
 
 
 
@@ -150,6 +151,7 @@ public class RoomManagerihg : MonoBehaviourPunCallbacks
     {
         
         Debug.Log("Joined to Lobby");
+        PhotonNetwork.JoinRandomRoom();
     }
 
     #endregion
