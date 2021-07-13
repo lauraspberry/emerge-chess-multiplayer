@@ -121,4 +121,9 @@ public class NetworkedGrabbing : MonoBehaviourPunCallbacks, IPunOwnershipCallbac
             isBeingHeld = false;
         }
     }
+
+    public void OnOwnershipTransferFailed(PhotonView targetView, Player senderOfFailedRequest)
+    {
+        throw new System.NotImplementedException();
+    }
 }

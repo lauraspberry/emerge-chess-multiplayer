@@ -8,23 +8,38 @@
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-using UnityEditor;
-using UnityEngine;
-
-using System.IO;
-using System.Text;
-using UnityEngine.Networking;
+#pragma warning disable 618 // Deprecation warnings
 
 
-namespace Photon.Pun
+#if UNITY_2017_4_OR_NEWER
+#define SUPPORTED_UNITY
+#endif
+
+
+#if UNITY_EDITOR
+
+namespace Photon.Realtime
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using UnityEditor;
+    using UnityEngine;
+
+    using System.IO;
+    using System.Text;
+    using UnityEngine.Networking;
+
+
     [InitializeOnLoad]
     public static class PhotonEditorUtils
     {
+        /// <summary>Stores a flag which tells Editor scripts if the PhotonEditor.OnProjectChanged got called since initialization.</summary>
+        /// <remarks>If not, the AssetDatabase is likely not usable yet and instances of ScriptableObject can't be loaded.</remarks>
+        public static bool ProjectChangedWasCalled;
+
+
         /// <summary>True if the ChatClient of the Photon Chat API is available. If so, the editor may (e.g.) show additional options in settings.</summary>
         public static bool HasChat;
 
@@ -42,6 +57,11 @@ namespace Photon.Pun
             HasChat = Type.GetType("Photon.Chat.ChatClient, Assembly-CSharp") != null || Type.GetType("Photon.Chat.ChatClient, Assembly-CSharp-firstpass") != null || Type.GetType("Photon.Chat.ChatClient, PhotonChat") != null;
             HasPun = Type.GetType("Photon.Pun.PhotonNetwork, Assembly-CSharp") != null || Type.GetType("Photon.Pun.PhotonNetwork, Assembly-CSharp-firstpass") != null || Type.GetType("Photon.Pun.PhotonNetwork, PhotonUnityNetworking") != null;
             PhotonEditorUtils.HasCheckedProducts = true;
+
+            if (EditorPrefs.HasKey("DisablePun") && EditorPrefs.GetBool("DisablePun"))
+            {
+                HasPun = false;
+            }
 
             if (HasPun)
             {
@@ -206,7 +226,7 @@ namespace Photon.Pun
 
             EditorApplication.update += closureCallback;
         }
-        
+
         public static System.Collections.IEnumerator HttpPost(string url, Dictionary<string, string> headers, byte[] payload, Action<string> successCallback, Action<string> errorCallback)
         {
             using (UnityWebRequest w = new UnityWebRequest(url, "POST"))
@@ -233,10 +253,10 @@ namespace Photon.Pun
                 while (w.isDone == false)
                     yield return null;
 
-                #if UNITY_2017_1_OR_NEWER
+                #if UNITY_2020_2_OR_NEWER
+                if (w.result == UnityWebRequest.Result.ProtocolError || w.result == UnityWebRequest.Result.ConnectionError || w.result == UnityWebRequest.Result.DataProcessingError)
+                #elif UNITY_2017_1_OR_NEWER
                 if (w.isNetworkError || w.isHttpError)
-                #else
-                if (w.isError)
                 #endif
                 {
                     if (errorCallback != null)
@@ -301,3 +321,4 @@ namespace Photon.Pun
         }
     }
 }
+#endif

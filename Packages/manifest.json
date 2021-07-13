@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "com.emerge.core": "1.0.0-preview.82",
+    "com.emerge.oculus": "1.0.0-preview.13",
+    "com.emerge.photon": "1.0.0-preview.20",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.ide.rider": "2.0.7",
     "com.unity.ide.visualstudio": "2.0.7",
@@ -42,5 +45,24 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  }
+  },
+  "scopedRegistries": [
+    {
+      "name": "Emerge",
+      "url": "http://upm.emerge.io:4873",
+      "scopes": [
+        "com.emerge",
+        "com.photon"
+      ]
+    },
+    {
+      "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.dbrizov.naughtyattributes",
+        "com.oculus",
+        "com.ultraleap"
+      ]
+    }
+  ]
 }
