@@ -26,7 +26,7 @@ public class PlayerNetworkSetup : MonoBehaviourPunCallbacks
         {
             //The player is local
             LocalXRRigGameobject.SetActive(true);
-            gameObject.GetComponent<MovementController>().enabled = true;
+            // gameObject.GetComponent<MovementController>().enabled = true;
             gameObject.GetComponent<AvatarInputConverter>().enabled = true;
 
 
